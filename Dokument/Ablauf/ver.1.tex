@@ -1,0 +1,55 @@
+\documentclass{report}
+\usepackage{tikz}
+\usepackage{ngerman}
+\usetikzlibrary{shapes, arrows}
+
+\title{Ablauf Ver-1.0}
+\author{Zhaoyang Hou}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\pagestyle{empty}
+	% Grund Formung
+	\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+	\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+	\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+	\tikzstyle{entscheidung} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+	\tikzstyle{arrow} = [thick,->,>=stealth]
+	
+	\begin{tikzpicture}[node distance=1.6cm]
+	%Boxs detalieren
+	\node (start) [startstop] {Start};
+	\node (pro1) [process, below of=start] {Bewegen zu Haupteingang};
+	\node (pro2) [process, below of=pro1] {Stationen Nr. Erkennen};
+	\node (ent1) [entscheidung, below of=pro2,yshift=-0.3cm] {Frei?};
+	\node (pro2-2) [process, right of = ent1, xshift=2.5cm] {Nächst};
+	\node (pro3) [process, below of=ent1,yshift=-0.3cm] {Suche Landmarkers für Zentierung};
+	\node (pro4) [process, below of=pro3] {Information der Landmarks bearbeiten};
+	\node (pro5) [process, below of=pro4] {Bewegt in y Richtung zu zentieren};
+	\node (ent2) [entscheidung, below of=pro5,yshift=-0.5cm] {Centiert?};
+	\node (pro6) [process, below of=ent2,yshift=-0.6cm] {Bewegt in x Richtung zu nähren};
+	\node (pro7) [process, below of=pro6] {?????,nicht sicher,\\ weil LadeStation noch nicht festgelegt wird};
+	\node (ende) [startstop, below of=pro7] {Ende};
+
+	
+	%Verbindungen defineren
+	\draw [arrow](start) -- (pro1);
+	\draw [arrow](pro1) -- (pro2);
+	\draw [arrow](pro2) -- (ent1);
+	\draw [arrow](ent1) -- (pro2-2);
+	\draw [arrow](ent1) -- (pro3);
+	\draw [arrow](ent1) -- node[anchor=east] {Ja} (pro3);
+	\draw [arrow](ent1) -- node[anchor=south] {Nein} (pro2-2);
+	\draw [arrow](pro2-2) |- (pro2);
+	\draw [arrow](pro3) -- (pro4);
+	\draw [arrow](pro4) -- (pro5);
+	\draw [arrow](pro5) -- (ent2);
+	\draw [arrow](ent2) -- (pro6);
+	\draw [arrow](ent2) -- node[anchor=east] {Ja} (pro6);
+	\draw [arrow](ent2) -- node[anchor=south] {Nein} ++(4,0) |- (pro5);
+	%\draw [arrow](ent2) -- node[anchor=south] {Nein} (pro4);
+	\draw [arrow](pro6) -- (pro7);
+	\draw [arrow](pro7) -- (ende);
+	\end{tikzpicture}
+\end{document}
