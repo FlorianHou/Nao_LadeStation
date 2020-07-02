@@ -67,22 +67,22 @@ class LandmarkDetector(object):
             #stop
             sys.exit(0)
 
-    if __name__ == "__main__":
-        parser = argparse.ArgumentParser()
-        parser.add_argument("--ip", type=str,default="127.0.0.1",
-                            help="Robot Ip address. On robot or Local Naoqi: use '127.0.0.1'.")
-        parser.add_argument("--port", type=int,default=9559,
-                            help="Naoqi port number")
-        args = parser.parse_args()
-        try:
-            # Initialisieren
-            connection_url = "tcp://" + args.ip + ":" + str(args.port)
-            app = qi,Application(["LandmarkDetector", "--qi-url=" + connection_url])
-        except RuntimeError:
-            print("Can't connect to Naoqi")
-            sys.exit(1)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--ip", type=str,default="127.0.0.1",
+                        help="Robot Ip address. On robot or Local Naoqi: use '127.0.0.1'.")
+    parser.add_argument("--port", type=int,default=9559,
+                        help="Naoqi port number")
+    args = parser.parse_args()
+    try:
+        # Initialisieren
+        connection_url = "tcp://" + args.ip + ":" + str(args.port)
+        app = qi,Application(["LandmarkDetector", "--qi-url=" + connection_url])
+    except RuntimeError:
+        print("Can't connect to Naoqi")
+        sys.exit(1)
 
-        landmark_detector = LandmarkDetector(app)
-        landmark_detector.run()
+    landmark_detector = LandmarkDetector(app)
+    landmark_detector.run()
 
 
